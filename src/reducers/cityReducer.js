@@ -1,12 +1,13 @@
-import { GET_WEATHER } from "../actions/constants";
+import { SET_CURRENT_CITY } from "../actions/constants";
 
 /**
- * To update the state of datas information
+ * To update the state of city information
  */
 export default (state = {}, action) => {
   switch (action.type) {
-    case GET_WEATHER:
+    case SET_CURRENT_CITY:
       return action.payload;
+
     default:
       return state;
   }

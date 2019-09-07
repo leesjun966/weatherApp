@@ -4,4 +4,5 @@
  */
 
 export const GET_WEATHER = "GET_WEATHER";
+export const SET_CURRENT_CITY = "GET_CITY";
 export const GET_WEATHER_ERROR = "GET_WEATHER_ERROR";

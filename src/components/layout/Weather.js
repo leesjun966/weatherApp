@@ -1,18 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import { getWeather } from "../../actions";
+import Spinner from "./Spinner";
 import WeatherList from "./WeatherList";
-import moment from "moment";
+import Typography from "@material-ui/core/Typography";
 
+/**
+ * This is the place to trigger the get weather information action
+ */
 class Weather extends React.Component {
   componentDidMount() {
     this.props.getWeather();
   }
 
+  //Divide the array into each particular day
   getEachDay = () => {
     const eachDay = this.props.weather;
     if (this.props.weather.length > 0) {
@@ -20,29 +21,37 @@ class Weather extends React.Component {
     }
   };
 
+  //If receive error from the api, a spinner and error message will be rendered
+  renderError() {
+    if (this.props.error.length > 0) {
+      const message = Object.values(this.props.error);
+      return (
+        <div>
+          <Spinner />
+          <Typography
+            variant="body2"
+            align="center"
+            color="secondary"
+            display="inline"
+          >
+            {message}
+          </Typography>
+        </div>
+      );
+    } else {
+      return <div>{this.getEachDay()}</div>;
+    }
+  }
   render() {
-    return (
-      <div>{this.getEachDay()}</div>
-      //   <List>
-      //     <ListItem>
-      //       <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-      //     </ListItem>
-      //     <Divider variant="inset" component="li" />
-      //     <ListItem>
-      //       <ListItemText primary="Work" secondary="Jan 7, 2014" />
-      //     </ListItem>
-      //     <Divider variant="inset" component="li" />
-      //     <ListItem>
-      //       <ListItemText primary="Vacation" secondary="July 20, 2014" />
-      //     </ListItem>
-      //   </List>
-    );
+    return <div>{this.renderError()}</div>;
   }
 }
 
+// To gain access of the state from the reducers
 const mapStateToProps = state => {
   return {
-    weather: state.datas
+    weather: state.datas,
+    error: state.error
   };
 };
 
